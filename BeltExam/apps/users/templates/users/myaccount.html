@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Edit Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static "users/wall.css" %}">
+  </head>
+  <body>
+    <table class="width-100 margin-top-10">
+      <tr>
+        <td class="bold padding-left-10 font-18" style="width:87.5%;">Edit My Account</td>
+        <td class="col-center"><a href="/quotes">Back</a></td>
+        <td class="col-center"><a href="/logoff">Logout</a></td>
+      </tr>
+    </table>
+
+    <div class="container">
+      {% if messages %}
+        <ul class="messages">
+          {% for m in messages %}
+            <li{% if m.tags %} class="{{ m.tags }}"{% endif %}>{{ m }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="inline-block margin-top-30">
+        <form action='/edit_user' method='post'>
+          {% csrf_token %}
+          <table>
+            <tr>
+              <td>First Name:</td>
+              <td><input name="first_name" type="text" value="{{ request.session.user.first_name }}"></td>
+            </tr>
+            <tr>
+              <td>Last Name:</td>
+              <td><input name="last_name" type="text" value="{{ request.session.user.last_name }}"></td>
+            </tr>
+            <tr>
+              <td>Email:</td>
+              <td><input name="email" type="text" value="{{ request.session.user.email }}"></td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td><input class="btn btn-primary width-100" type='submit' value='Submit'></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

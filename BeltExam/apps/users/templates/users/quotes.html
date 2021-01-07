@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <title>Quote Dashbord</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static "users/wall.css" %}">
+  </head>
+  <body>
+    <div>
+      <table class="width-100 margin-top-10">
+        <tr>
+          <td class="bold padding-left-10 font-24" style="width:80%;">Welcome, {{ request.session.user.first_name }} {{ request.session.user.last_name }}!</td>
+          <td class="col-center"><a href="/myaccount/{{ request.session.user.user_id }}">Edit My Account</a></td>
+          <td class="col-center"><a href="/logoff">Logout</a></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="quotes">
+      <div class="inline-block vertical-align-top width-50" id="recent">
+        <center>
+          <div class="bold">Quotes:</div>
+          {% for quote in quotes %}
+            <div class="box">
+              {{ quote.author }}: "{{ quote.quote }}"
+              <div>Posted by <a href="users/{{ quote.submitter.id }}">{{ quote.submitter.first_name }} {{ quote.submitter.last_name }}</a></div>
+
+              <span id="likes">{{ quote.likes.count }}</span> people like this
+
+              <form action='/likes' method='post' id="like" class="no-padding-margin inline-block">
+                {% csrf_token %}
+                <input name="quote_id" type="hidden" value="{{ quote.id }}">
+                <input class="btn btn-primary btn-sm no-padding-margin padding-sides-10" type='submit' value='Like'>
+              </form>
+
+              {% if quote.submitter.id == request.session.user.user_id %}
+                <form action='/delete_quote' method='post' class="no-padding-margin">
+                  {% csrf_token %}
+                  <input name="quote_id" type="hidden" value="{{ quote.id }}">
+                  <input class="btn btn-link btn-sm no-padding-margin" type='submit' value='Delete'>
+                </form>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </center>
+      </div>
+
+      <div class="inline-block vertical-align-top width-50" id="other">
+        <center>
+          <div class="bold">Add a Quote!</div>
+
+          {% if messages %}
+            <ul class="messages">
+              {% for m in messages %}
+                <li{% if m.tags %} class="{{ m.tags }}"{% endif %}>{{ m }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <form action='/submit_quote' method='post' id="submit_quote">
+            {% csrf_token %}
+            <table>
+              <tr>
+                <td>Author:</td>
+                <td><input name="author" type="text" class="input width-100"></td>
+              </tr>
+              <tr>
+                <td class="vertical-align-top">Quote:</td>
+                <td><textarea name="quote" form="submit_quote" class="input width-100"></textarea></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input class="btn btn-primary" type='submit' value='Submit'></td>
+              </tr>
+            </table>
+          </form>
+        </center>
+      </div>
+    </div>
+  </body>
+</html>

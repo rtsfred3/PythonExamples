@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Destroy a course</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <style>
+      .hide{
+        display: none;
+      }
+
+      .inline-block{
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Are you sure you want to delete the following course?</h2>
+      <div class="row">
+        <div class="col-sm-6 border-left border-top">Name:</div>
+        <div class="col-sm-6 border border-bottom-0">{{ course.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 border-left border-top border-bottom">Description:</div>
+        <div class="col-sm-6 border">{{ course.description }}</div>
+      </div>
+
+      <br />
+      <center>
+        <button type="button" class="btn btn-primary inline-block" onclick="location.href = '..';">No</button>
+        <div class="inline-block">
+          <form action='../destroy_course' method='post' class='inline-block'>
+            {% csrf_token %}
+            <input name="id" type="text" value="{{ course.id }}" class="hide">
+            <input class="btn btn-danger" type='submit' value='Yes! I want to delete this'>
+          </form>
+        </div>
+        <!-- <button type="button" class="btn btn-danger" onclick="location.href = '..';">Yes! I want to delete this</button> -->
+      </center>
+    </div>
+  </body>
+</html>

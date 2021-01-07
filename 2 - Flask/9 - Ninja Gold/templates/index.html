@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <title>Ninja Gold</title>
+    <style>
+      .box{
+        height: 250px;
+        width: 250px;
+        border: 2px solid black;
+        display: inline-block;
+
+        background-color: white;
+      }
+
+      .hide{
+        height: 0px !important;
+        width: 0px !important;
+        visibility: hidden;
+        font-size: 0;
+        display: none;
+      }
+
+      .text{
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .text-green{
+        color: green;
+      }
+
+      .text-red{
+        color: red;
+      }
+
+      .text-black{
+        color: black;
+      }
+
+      textarea{
+        height: 250px;
+        width: 100%;
+      }
+
+      .textarea {
+        border: 1px solid gray;
+        font: medium -moz-fixed;
+        font: -webkit-small-control;
+        height: 28px;
+        overflow: auto;
+        padding: 2px;
+        resize: vertical;
+        width: 100%;
+        height: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Your Gold: <input value="{{ session['gold'] }}" readonly></div>
+    <center>
+      {% for box in grid: %}
+        <div class="box text">
+          <h2>{{ box['full_name'] }}</h2>
+          {{ box['message'] }}
+          <br /><br />
+          <form action="process_money" method="post">
+            <input class="hide" name="getVal" value="{{ box['id_name'] }}">
+            <input type="submit" value="Find Gold!">
+          </form>
+        </div>
+      {% endfor %}
+    </center>
+    <br /><br />
+    Activities:<br />
+    <div class="textarea" contenteditable="true">
+      {% for entry in session['activities'] %}
+        <span class="{{ entry[0] }}">{{ entry[1] }}</span><br />
+      {% endfor %}
+      <!-- {{ session['activities'] }} -->
+    </div>
+    <!-- <textarea readonly>{{ session['activities'] }}</textarea> -->
+  </body>
+</html>

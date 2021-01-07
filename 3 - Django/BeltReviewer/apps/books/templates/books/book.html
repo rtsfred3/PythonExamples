@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Books Id</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static "users/wall.css" %}">
+  </head>
+  <body>
+    <div>
+      <table class="width-100 margin-top-10">
+        <tr>
+          <td style="width:80%;"></td>
+          <td class="col-center"><a href="/books">Home</a></td>
+          <td class="col-center"><a href="/logoff">Logout</a></td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div class="container">
+      <div class="bold font-24">{{ book.title }}</div>
+      <div>Author: {{ book.author.name }}</div>
+
+      <div id="reviews" class="inline-block width-50 margin-top-30">
+        <div class="bold">Reviews:</div>
+        {% for review in reviews %}
+          <hr>
+          Rating:
+          {% with ''|center:review.rating as range %}
+            {% for _ in range %}
+              &#9733;
+            {% endfor %}
+          {% endwith %}
+
+          {% with star1=review.rating|add:-5 %}
+            {% with star=star1|cut:"-" %}
+              {% with ''|center:star as range %}
+                {% for _ in range %}
+                  &#9734;
+                {% endfor %}
+              {% endwith %}
+            {% endwith %}
+          {% endwith %}
+          <br />
+          <a href="/users/{{ review.reviewer.id }}">{{ review.reviewer.first_name }}</a> says: <i>{{ review.review }}</i>
+          <br />
+          Posted at {{ review.created_at }}
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: white;
+      }
+
+      h1 {
+        color: maroon;
+        margin-left: 40px;
+      }
+
+      .box{
+        width: 200px;
+        height: 200px;
+        margin: 5px;
+        background-color: {{color}};
+        border: 2.5px solid black;
+
+        display: inline-block;
+      }
+
+      .center{
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+
+        text-align: center;
+
+        /* background-color: green; */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome!</h1>
+    <div class="center">
+      {% for i in range(0, boxes): %}
+        <span class="box"></span>
+      {% endfor %}
+    </div>
+  </body>
+</html>

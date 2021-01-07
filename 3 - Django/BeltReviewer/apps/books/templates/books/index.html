@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>Books Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static "users/wall.css" %}">
+  </head>
+  <body>
+    <div>
+      <table class="width-100 margin-top-10">
+        <tr>
+          <td class="bold padding-left-10 font-24" style="width:80%;">Welcome, {{ request.session.user.first_name }}!</td>
+          <td class="col-center"><a href="/books/add">Add Book and Review</a></td>
+          <td class="col-center"><a href="/logoff">Logout</a></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="reviews">
+      <div class="inline-block vertical-align-top width-50" id="recent">
+        <div class="bold">Recent Book Reviews:</div>
+        {% for review in reviews %}
+          <div><a href="{{ review.book.id }}">{{ review.book.title }}</a></div>
+          <div class="margin-left-25">
+            Rating:
+            {% with ''|center:review.rating as range %}
+              {% for _ in range %}
+                &#9733;
+              {% endfor %}
+            {% endwith %}
+
+            {% with star1=review.rating|add:-5 %}
+              {% with star=star1|cut:"-" %}
+                {% with ''|center:star as range %}
+                  {% for _ in range %}
+                    &#9734;
+                  {% endfor %}
+                {% endwith %}
+              {% endwith %}
+            {% endwith %}
+            <br />
+            <a href="/users/{{ review.reviewer.id }}">{{ review.reviewer.first_name }}</a> says: {{ review.review }}
+            <br />
+            Posted at {{ review.created_at }}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="inline-block vertical-align-top width-50" id="other">
+        <div class="bold">Other Book with Reviews:</div>
+        <div class="textarea">
+          {% for book in books %}
+            <div><a href="{{ book.id }}">{{ book.title }}</a></div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>Great Number Game</title>
+    <style>
+      .box{
+        height: 250px;
+        width: 250px;
+        color: white;
+        border: 2px solid black;
+        display: table;
+      }
+
+      .hide{
+        height: 0px !important;
+        width: 0px !important;
+        visibility: hidden;
+        font-size: 0;
+        display: none;
+      }
+
+      .hide input[type=submit]{
+        display: none;
+      }
+
+      .show{
+        visibility: visible;
+      }
+
+      .box-empty{ }
+
+      .box-red{
+        background-color: red;
+      }
+
+      .box-green{
+        background-color: green;
+      }
+
+      .text{
+        display: table-cell;
+        vertical-align: middle;
+      }
+    </style>
+</head>
+<body>
+  <center>
+    <h1>Welcome to the Great Number Game!</h1>
+    <div>I am thinking of a number between 1 and 100</div>
+    <div>Take a guess</div>
+
+    <div class="{{ box_right }}"><br /><br /></div>
+    <div class="{{ box_wrong }}"><br /><br /></div>
+
+    <div class="box box-green text {{ box_right }}">
+      {{ session['val'] }} was the number<br />
+      <form action="reset" method="get">
+        <input type="submit" value="Play again!">
+      </form>
+    </div>
+
+    <div class="box box-red text {{ box_wrong }}">{{ hint }}</div>
+
+    <div class="{{ form_id }}"><br /><br /></div>
+
+    <form class="{{ form_id }}" action="" method="post">
+      <input type="number" name="guess">
+      <br />
+      <input type="submit" value="Submit">
+    </form>
+  </center>
+</body>
+</html>

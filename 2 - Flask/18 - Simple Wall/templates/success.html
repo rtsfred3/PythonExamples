@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <title>Success</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/success.css">
+  </head>
+  <body>
+    <div class="header">
+      <table class="border-bottom-5">
+        <tr>
+          <td class="bold padding-left-10 font-24">CodingDojo Wall (Simplified)</td>
+          <td class="col-center bold">{{ session['user']['first_name'] }} {{ session['user']['last_name'] }}</td>
+          <td class="col-right padding-right-10"><a href='/logoff'>Log Off</a></td>
+        </tr>
+      </table>
+    </div>
+
+    <br /><br />
+
+    <table>
+      <tr class="table-border">
+        <th class="padding-left-10 underline width-50">{{ session['user']['num_messages_received'] }} Message(s) for you ({{ session['user']['first_name'] }})</th>
+        <th class="underline width-50">Send a message.</th>
+      </tr>
+      <tr class="table-border">
+        <td class="padding-left-10">
+          <div class="padding-left-30">
+            {% for message in session['user']['messages']: %}
+              <div class="inline-block margin-top-mess">
+                <div class="bold padding-left-30">{{ message['name'] }} said ({{ message['age'] }} seconds ago):</div>
+                <div class="padding-left-60">"{{ message['message'] }}"</div>
+              </div>
+              <br />
+              <div class="inline-block no-margin padding-left-30">
+                <form action='delete_message' method='post'>
+                  <input class="hide" name="message_id" type="text" value="{{ message['message_id'] }}">
+                  <input class="btn btn-primary no-margin" type='submit' value='Delete'>
+                </form>
+              </div>
+              {% if not loop.last %}
+                <br />
+              {% endif %}
+            {% endfor %}
+          </div>
+        </td>
+
+        <td>
+          You have sent a total of {{ session['user']['num_messages_sent'] }} messages so far.<br />
+          {% for user in session['users']: %}
+            <form action='send_message' method='post'>
+              <input class="hide" name="recipient_id" type="text" value="{{ user['user_id'] }}">
+              <input class="hide" name="author_id" type="text" value="{{ session['user']['user_id'] }}">
+              {{ user['first_name'] }} {{ user['last_name'] }}
+              <input class="input-border" name="message" type="text">
+              <input class="btn btn-primary" type='submit' value='Submit'>
+            </form>
+          {% endfor %}
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

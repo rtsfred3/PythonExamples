@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Email Validation w/ DB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <style>
+      table, td, th {
+        border: 0px solid black;
+        border-collapse: collapse;
+      }
+
+      .box{
+        background-color: red;
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+        align-content: center;
+        text-align: center;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <p class="box">{{message}}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form action='add_email' method='post'>
+        Email:<input name="email" type="text">
+        <input class="btn btn-primary float-right" type='submit' value='Submit'>
+      </form>
+    </div>
+  </body>
+</html>

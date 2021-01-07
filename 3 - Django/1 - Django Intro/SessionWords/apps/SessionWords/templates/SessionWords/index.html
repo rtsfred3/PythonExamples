@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <title>Session Words</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <style>
+      table, td, th {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+      form{
+        margin: 0;
+        padding: 0;
+      }
+
+      .inline-block{
+        display: inline-block;
+      }
+
+      .no-margin{
+        margin: 0px !important;
+      }
+
+      .no-padding{
+        padding: 0px !important;
+      }
+
+      .background-black{
+        background-color: black;
+      }
+
+      .background-white{
+        background-color: white;
+      }
+
+      .bold{
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="inline-block no-margin no-padding">
+        <form action='process' method='post'>
+          {% csrf_token %}
+          <div class="bold">Add a new word</div>
+          <div><input name="message" type="text"></div>
+          Choose a color:
+          <select name="color">
+            {% for color in colors %}
+              <option value="{{ color.id }}">{{ color.name }}</option>
+            {% endfor %}
+          </select>
+          <div><input name="big" id="big" type="checkbox"> show in BIG fonts!</div>
+
+          <br />
+          <input class="btn btn-primary" type='submit' value='Add to Session'>
+        </form>
+      </div>
+      <div class="inline-block no-margin no-padding">
+        <form action='destroy' method='post'>
+          {% csrf_token %}
+          <input class="btn btn-primary" type='submit' value='Clear Session'>
+        </form>
+
+        <div>
+          {% for message in request.session.messages %}
+            <div>
+              <span style="color:{{ message.color }};  font-size:{{ message.font }};">{{ message.message }}</span>
+              <span>{{ message.date }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
